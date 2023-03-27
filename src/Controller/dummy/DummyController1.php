@@ -2,11 +2,12 @@
 
 namespace App\Controller\dummy;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DummyController1
+class DummyController1 extends AbstractController
 {
     /**
      * @Route("/welcome/{username}", name="welcome1", methods={"Get"})
@@ -22,6 +23,7 @@ class DummyController1
      * @Route("/welcome", methods={"POST"}, name="welcome2")
      * @param Request $request
      * @return Response
+     *
      */
     public function welcomePOST(Request $request): Response
     {
@@ -38,6 +40,16 @@ class DummyController1
     {
         $username = $request->get('username');
         return $this->getWelcomeMessage($username);
+    }
+
+    /**
+     * @Route("/welcomeWithTwig/{username}", methods={"GET"}, name="welcomeWithTwig")
+     * @param string $username
+     * @return Response
+     */
+    public function welcomeWithTwig(string $username): Response
+    {
+        return $this->render('dummy/welcome.html.twig', compact('username'));
     }
 
     private function getWelcomeMessage(string $username): Response
