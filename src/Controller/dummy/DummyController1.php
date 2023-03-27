@@ -9,23 +9,39 @@ use Symfony\Component\Routing\Annotation\Route;
 class DummyController1
 {
     /**
-     * @Route("/welcome/{username}", name="welcome", methods={"Get"})
+     * @Route("/welcome/{username}", name="welcome1", methods={"Get"})
      * @param string $username
      * @return Response
      */
     public function welcomeGET(string $username): Response
     {
-        return new Response(sprintf('Welcome To the App %s', $username));
+        return $this->getWelcomeMessage($username);
     }
 
     /**
-     * @Route("/welcome", methods={"POST"})
+     * @Route("/welcome", methods={"POST"}, name="welcome2")
      * @param Request $request
      * @return Response
      */
     public function welcomePOST(Request $request): Response
     {
         $username = json_decode($request->getContent(), true)['username'];
+        return $this->getWelcomeMessage($username);
+    }
+
+    /**
+     * @Route("/welcomeWithFormParams", methods={"POST"}, name="welcome3")
+     * @param Request $request
+     * @return Response
+     */
+    public function welcomeWithFormParams(Request $request): Response
+    {
+        $username = $request->get('username');
+        return $this->getWelcomeMessage($username);
+    }
+
+    private function getWelcomeMessage(string $username): Response
+    {
         return new Response(sprintf('Welcome To the App %s', $username));
     }
 }
