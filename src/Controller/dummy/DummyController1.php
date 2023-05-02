@@ -49,6 +49,7 @@ class DummyController1 extends AbstractController
      */
     public function welcomeWithTwig(string $username): Response
     {
+        dump($username);
         return $this->render('dummy/welcome.html.twig', compact('username'));
     }
 
